@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="last-modified" content="2018-04-06 21:35:58 +0000">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- meta "search-domain" used for google site search function google_search() -->
+    <meta name="search-domain" value="">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/lesson.css" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon-dc.ico" />
+    
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+    <title>Intro to Geospatial Data with R: Manipulate Raster Data in R</title>
+  </head>
+  <body>
+    <div class="container">
+      
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      
+      
+      <a href="http://datacarpentry.org" class="pull-left">
+        <img class="navbar-logo" src="../assets/img/dc-icon-black.svg" alt="Data Carpentry logo" />
+      </a>
+      
+
+      
+      <a class="navbar-brand" href="../">Home</a>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+	
+        <li><a href="../conduct/">Code of Conduct</a></li>
+
+	
+        
+        <li><a href="../setup/">Setup</a></li>
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Episodes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            <li><a href="../01-raster-structure/">Intro to Raster Data in R</a></li>
+            
+            <li><a href="../02-raster-plot/">Plot Raster Data in R</a></li>
+            
+            <li><a href="../03-raster-reproject-in-r/">Reproject Raster Data in R</a></li>
+            
+            <li><a href="../04-raster-calculations-in-r/">Raster Calculations in R</a></li>
+            
+            <li><a href="../05-raster-multi-band-in-r/">Work With Multi-Band Rasters in R</a></li>
+            
+            <li><a href="../06-vector-open-shapefile-in-r/">Open and Plot Shapefiles in R</a></li>
+            
+            <li><a href="../07-vector-shapefile-attributes-in-r/">Explore and Plot by Shapefile Attributes</a></li>
+            
+            <li><a href="../08-vector-plot-shapefiles-custom-legend/">Plot Multiple Shapefiles in R</a></li>
+            
+            <li><a href="../09-vector-when-data-dont-line-up-crs/">Handling Spatial Projection & CRS in R</a></li>
+            
+            <li><a href="../10-vector-csv-to-shapefile-in-r/">Convert from .csv to a Shapefile in R</a></li>
+            
+            <li><a href="../11-vector-raster-integration/">Manipulate Raster Data in R</a></li>
+            
+            <li><a href="../12-time-series-raster/">Raster Time Series Data in R</a></li>
+            
+            <li><a href="../13-plot-time-series-rasters-in-r/">Plot Raster Time Series Data in R</a></li>
+            
+            <li><a href="../14-extract-ndvi-from-rasters-in-r/">Derive Values from Raster Time Series</a></li>
+            
+	    <li role="separator" class="divider"></li>
+            <li><a href="../aio/">All in one page (Beta)</a></li>
+          </ul>
+        </li>
+	
+
+	
+	
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Extras <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../reference/">Reference</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+        <li><a href="../license/">License</a></li>
+	
+	<li><a href="/edit/gh-pages/_episodes/11-vector-raster-integration.md">Improve this page <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></li>
+	
+      </ul>
+      <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<div class="row">
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../10-vector-csv-to-shapefile-in-r/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span class="sr-only">previous episode</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-md-10">
+    
+    <h3 class="maintitle"><a href="../">Intro to Geospatial Data with R</a></h3>
+    
+  </div>
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../12-time-series-raster/"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+<article>
+<div class="row">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-10">
+    <h1 class="maintitle">Manipulate Raster Data in R</h1>
+  </div>
+  <div class="col-md-1">
+  </div>
+</div>
+
+
+<blockquote class="testimonial">
+  <h2>Authors</h2>
+    Joseph Stachelek, Leah A. Wasser, Megan A. Jones
+</blockquote>
+
+<blockquote class="objectives">
+  <h2>Overview</h2>
+
+  <div class="row">
+    <div class="col-md-3">
+      <strong>Teaching:</strong> 10 min
+      <br/>
+      <strong>Exercises:</strong> 0 min
+    </div>
+    <div class="col-md-9">
+      <strong>Questions</strong>
+      <ul>
+	
+	<li><p>How to crop raster layers and extract summary pixels.</p>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-9">
+      <strong>Objectives</strong>
+      <ul>
+	
+	<li><p>Be able to crop a raster to the extent of a vector layer.</p>
+</li>
+	
+	<li><p>Be able to extract values from raster that correspond to a vector file overlay.</p>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+</blockquote>
+
+<blockquote class="prereq">
+  <h2 id="things-youll-need-to-complete-this-tutorial">Things You’ll Need To Complete This Tutorial</h2>
+  <p><strong>R Skill Level:</strong> Intermediate - you’ve got the basics of <code class="highlighter-rouge">R</code> down.
+You will need the most current version of <code class="highlighter-rouge">R</code> and, preferably, <code class="highlighter-rouge">RStudio</code> loaded
+on your computer to complete this tutorial.</p>
+
+  <h3 id="install-r-packages">Install R Packages</h3>
+
+  <ul>
+    <li><strong>raster:</strong> <code class="highlighter-rouge">install.packages("raster")</code></li>
+    <li>
+      <p><strong>sf:</strong> <code class="highlighter-rouge">install.packages("sf")</code></p>
+    </li>
+    <li><a href="/R/Packages-In-R/">More on Packages in R - Adapted from Software Carpentry.</a></li>
+  </ul>
+
+  <h3 id="download-data">Download Data</h3>
+  <ul>
+    <li><a href="https://ndownloader.figshare.com/files/3708751">Site layout shapefiles</a></li>
+    <li><a href="https://ndownloader.figshare.com/files/3701578">Airborne remote sensing data</a></li>
+  </ul>
+</blockquote>
+
+<p>This tutorial explains how to crop a raster using the extent of a vector
+shapefile. We will also cover how to extract values from a raster that occur
+within a set of polygons, or in a buffer (surrounding) region around a set of
+points.</p>
+
+<h2 id="crop-a-raster-to-vector-extent">Crop a Raster to Vector Extent</h2>
+<p>We often work with spatial layers that have different spatial extents.</p>
+
+<figure>
+    <a href="/images/dc-spatial-vector/spatial_extent.png">
+    <img src="/images/dc-spatial-vector/spatial_extent.png" /></a>
+    <figcaption>The spatial extent of a shapefile or R spatial object represents
+    the geographic "edge" or location that is the furthest north, south east and
+    west. Thus is represents the overall geographic coverage of the spatial
+    object. Image Source: National Ecological Observatory Network (NEON)
+    </figcaption>
+</figure>
+
+<p>The graphic below illustrates the extent of several of the spatial layers that
+we have worked with in this vector data tutorial series:</p>
+
+<ul>
+  <li>Area of interest (AOI) – blue</li>
+  <li>Roads and trails – purple</li>
+  <li>Vegetation plot locations – black</li>
+</ul>
+
+<p>and a raster file, that we will introduce this tutorial:</p>
+
+<ul>
+  <li>A canopy height model (CHM) in GeoTIFF format – green</li>
+</ul>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linking to GEOS 3.5.1, GDAL 2.2.1, proj.4 4.9.2, lwgeom 2.3.3 r15473
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading required package: sp
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reading layer `HarClip_UTMZ18' from data source `/home/jose/Documents/Science/Projects/software-carpentry/data-carpentry_lessons/R-spatial-raster-vector-lesson/_episodes_rmd/data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp' using driver `ESRI Shapefile'
+Simple feature collection with 1 feature and 1 field
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 732128 ymin: 4713209 xmax: 732251.1 ymax: 4713359
+epsg (SRID):    32618
+proj4string:    +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reading layer `HARV_roads' from data source `/home/jose/Documents/Science/Projects/software-carpentry/data-carpentry_lessons/R-spatial-raster-vector-lesson/_episodes_rmd/data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp' using driver `ESRI Shapefile'
+Simple feature collection with 13 features and 15 fields
+geometry type:  MULTILINESTRING
+dimension:      XY
+bbox:           xmin: 730741.2 ymin: 4711942 xmax: 733295.5 ymax: 4714260
+epsg (SRID):    32618
+proj4string:    +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reading layer `HARVtower_UTM18N' from data source `/home/jose/Documents/Science/Projects/software-carpentry/data-carpentry_lessons/R-spatial-raster-vector-lesson/_episodes_rmd/data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp' using driver `ESRI Shapefile'
+Simple feature collection with 1 feature and 14 fields
+geometry type:  POINT
+dimension:      XY
+bbox:           xmin: 732183.2 ymin: 4713265 xmax: 732183.2 ymax: 4713265
+epsg (SRID):    32618
+proj4string:    +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-view-extents-1.png" title="plot of chunk view-extents" alt="plot of chunk view-extents" style="display: block; margin: auto;" /></p>
+
+<p>Frequent use cases of cropping a raster file include reducing file size and
+creating maps.</p>
+
+<p>Sometimes we have a raster file that is much larger than our study area or area
+of interest. It is often most efficient to crop the raster to the extent of our
+study area to keep reduce file sizes as we process our data.</p>
+
+<p>Cropping a raster can also be useful when creating pretty maps so that the
+raster layer matches the extent of the desired vector layers.</p>
+
+<h3 id="import-data">Import Data</h3>
+<p>We will begin by importing four vector shapefiles (field site boundary,
+roads/trails, tower location, and veg study plot locations) and one raster
+GeoTIFF file, a Canopy Height Model for the Harvard Forest, Massachusetts.
+These data can be used to create maps that characterize our study location.</p>
+
+<p>If you have completed the Vector 00-04 tutorials in this
+<a href="/tutorial-series/vector-data-series/">Introduction to Working with Vector Data in R</a>
+series, you can skip this code as you have already created these object.)</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load necessary packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># set working directory to data folder</span><span class="w">
+</span><span class="c1"># setwd("pathToDirHere")</span><span class="w">
+
+</span><span class="c1"># Imported in Vector 00: Vector Data in R - Open &amp; Plot Data</span><span class="w">
+</span><span class="c1"># shapefile</span><span class="w">
+</span><span class="n">aoi_boundary_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s2">"data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Import a line shapefile</span><span class="w">
+</span><span class="n">lines_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s2">"data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp"</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Import a point shapefile</span><span class="w">
+</span><span class="n">point_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s2">"data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Imported in  Vector 02: .csv to Shapefile in R</span><span class="w">
+</span><span class="c1"># import raster Canopy Height Model (CHM)</span><span class="w">
+</span><span class="n">chm_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">
+  </span><span class="n">raster</span><span class="p">(</span><span class="s2">"data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="crop-a-raster-using-vector-extent">Crop a Raster Using Vector Extent</h2>
+<p>We can use the <code class="highlighter-rouge">crop</code> function to crop a raster to the extent of another spatial
+object. To do this, we need to specify the raster to be cropped and the spatial
+object that will be used to crop the raster. <code class="highlighter-rouge">R</code> will use the <code class="highlighter-rouge">extent</code> of the
+spatial object as the cropping boundary.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># plot full CHM</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">chm_HARV</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"LiDAR CHM - Not Cropped\nNEON Harvard Forest Field Site"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-Crop-by-vector-extent-1.png" title="plot of chunk Crop-by-vector-extent" alt="plot of chunk Crop-by-vector-extent" style="display: block; margin: auto;" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># crop the chm</span><span class="w">
+</span><span class="n">chm_HARV_Crop</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">crop</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chm_HARV</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as</span><span class="p">(</span><span class="n">aoi_boundary_HARV</span><span class="p">,</span><span class="w"> </span><span class="s2">"Spatial"</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># plot full CHM</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">extent</span><span class="p">(</span><span class="n">chm_HARV</span><span class="p">),</span><span class="w">
+     </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"springgreen"</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"LiDAR CHM - Cropped\nNEON Harvard Forest Field Site"</span><span class="p">,</span><span class="w">
+     </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"easting"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"northing"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">chm_HARV_Crop</span><span class="p">,</span><span class="w">
+     </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-Crop-by-vector-extent-2.png" title="plot of chunk Crop-by-vector-extent" alt="plot of chunk Crop-by-vector-extent" style="display: block; margin: auto;" /></p>
+
+<p>We can see from the plot above that the full CHM extent (plotted in green) is
+much larger than the resulting cropped raster. Our new cropped CHM now has the
+same extent as the <code class="highlighter-rouge">aoi_boundary_HARV</code> object that was used as a crop extent
+(blue border below).</p>
+
+<p><img src="../fig/rmd-view-crop-extent-1.png" title="plot of chunk view-crop-extent" alt="plot of chunk view-crop-extent" style="display: block; margin: auto;" /></p>
+
+<p>We can look at the extent of all the other objects.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lets look at the extent of all of our objects</span><span class="w">
+</span><span class="n">extent</span><span class="p">(</span><span class="n">chm_HARV</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class       : Extent 
+xmin        : 731453 
+xmax        : 733150 
+ymin        : 4712471 
+ymax        : 4713838 
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">extent</span><span class="p">(</span><span class="n">chm_HARV_Crop</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class       : Extent 
+xmin        : 732128 
+xmax        : 732251 
+ymin        : 4713209 
+ymax        : 4713359 
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">st_bbox</span><span class="p">(</span><span class="n">aoi_boundary_HARV</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     xmin      ymin      xmax      ymax 
+ 732128.0 4713208.7  732251.1 4713359.2 
+</code></pre></div></div>
+
+<p>Which object has the largest extent?  Our plot location extent is not the
+largest but is larger than the AOI Boundary. It would be nice to see our
+vegetation plot locations with the Canopy Height Model information.</p>
+
+<blockquote class="challenge">
+  <h2 id="challenge-crop-to-vector-points-extent">Challenge: Crop to Vector Points Extent</h2>
+
+  <ol>
+    <li>Crop the Canopy Height Model to the extent of the study plot locations.</li>
+    <li>Plot the vegetation plot location points on top of the Canopy Height Model.</li>
+  </ol>
+
+  <p>If you completed
+<a href="/R/csv-to-shapefile-R/">.csv to Shapefile in R</a>
+you have these plot locations as a spatial <code class="highlighter-rouge">R</code> object
+<code class="highlighter-rouge">plot_locations_sp_HARV</code>. Otherwise, import the locations from the
+<code class="highlighter-rouge">\HARV\PlotLocations_HARV.shp</code> shapefile in the downloaded data.</p>
+
+  <blockquote class="solution">
+    <h2 id="answers">Answers</h2>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Created/imported in L02: .csv to Shapefile in R</span><span class="w">
+</span><span class="n">plot.locationSp_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s2">"data/NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># crop the chm</span><span class="w">
+</span><span class="n">CHM_plots_HARVcrop</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">crop</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chm_HARV</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as</span><span class="p">(</span><span class="n">plot_locations_sp_HARV</span><span class="p">,</span><span class="w"> </span><span class="s2">"Spatial"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">CHM_plots_HARVcrop</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Study Plot Locations\n NEON Harvard Forest"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">plot</span><span class="p">(</span><span class="n">plot.locationSp_HARV</span><span class="o">$</span><span class="n">geometry</span><span class="p">,</span><span class="w">
+     </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">
+     </span><span class="n">pch</span><span class="o">=</span><span class="m">19</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <p><img src="../fig/rmd-challenge-code-crop-raster-points-1.png" title="plot of chunk challenge-code-crop-raster-points" alt="plot of chunk challenge-code-crop-raster-points" style="display: block; margin: auto;" /></p>
+  </blockquote>
+</blockquote>
+
+<p>In the plot above, created in the challenge, all the vegetation plot locations
+(blue) appear on the Canopy Height Model raster layer except for one. One is
+situated on the white space. Why?</p>
+
+<p>A modification of the first figure in this tutorial is below, showing the
+relative extents of all the spatial objects. Notice that the extent for our
+vegetation plot layer (black) extends further west than the extent of our CHM
+raster (bright green). The crop function will make a raster extent smaller, it
+will not expand the extent in areas where there are no data. Thus, extent of our
+vegetation plot layer will still extend further west than the extent of our
+(cropped) raster data (dark green).</p>
+
+<p><img src="../fig/rmd-raster-extents-cropped-1.png" title="plot of chunk raster-extents-cropped" alt="plot of chunk raster-extents-cropped" style="display: block; margin: auto;" /></p>
+
+<h2 id="define-an-extent">Define an Extent</h2>
+<p>We can also use an <code class="highlighter-rouge">extent()</code> method to define an extent to be used as a cropping
+boundary. This creates an object of class <code class="highlighter-rouge">extent</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># extent format (xmin, xmax, ymin, ymax)</span><span class="w">
+</span><span class="n">new.extent</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">extent</span><span class="p">(</span><span class="m">732161.2</span><span class="p">,</span><span class="w"> </span><span class="m">732238.7</span><span class="p">,</span><span class="w"> </span><span class="m">4713249</span><span class="p">,</span><span class="w"> </span><span class="m">4713333</span><span class="p">)</span><span class="w">
+</span><span class="nf">class</span><span class="p">(</span><span class="n">new.extent</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "Extent"
+attr(,"package")
+[1] "raster"
+</code></pre></div></div>
+
+<p>Once we have defined the extent, we can use the <code class="highlighter-rouge">crop</code> function to crop our
+raster.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># crop raster</span><span class="w">
+</span><span class="n">CHM_HARV_manualCrop</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">crop</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chm_HARV</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new.extent</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># plot extent boundary and newly cropped raster</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">aoi_boundary_HARV</span><span class="o">$</span><span class="n">geometry</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Manually Cropped Raster\n NEON Harvard Forest Field Site"</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">new.extent</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"brown"</span><span class="p">,</span><span class="w">
+     </span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w">
+     </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">CHM_HARV_manualCrop</span><span class="p">,</span><span class="w">
+     </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-crop-using-drawn-extent-1.png" title="plot of chunk crop-using-drawn-extent" alt="plot of chunk crop-using-drawn-extent" style="display: block; margin: auto;" /></p>
+
+<p>Notice that our manual <code class="highlighter-rouge">new.extent</code> (in red) is smaller than the
+<code class="highlighter-rouge">aoi_boundary_HARV</code> and that the raster is now the same as the <code class="highlighter-rouge">new.extent</code>
+object.</p>
+
+<p>See the documentation for the <code class="highlighter-rouge">extent()</code> function for more ways
+to create an <code class="highlighter-rouge">extent</code> object.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">??raster::extent</code></li>
+  <li>More on the
+<a href="http://www.inside-r.org/packages/cran/raster/docs/extent" target="_blank">
+extent class in <code class="highlighter-rouge">R</code></a>.</li>
+</ul>
+
+<h2 id="extract-raster-pixels-values-using-vector-polygons">Extract Raster Pixels Values Using Vector Polygons</h2>
+
+<p>Often we want to extract values from a raster layer for particular locations -
+for example, plot locations that we are sampling on the ground.</p>
+
+<figure>
+    <a href="http://neondataskills.org/images/spatialData/BufferSquare.png">
+    <img src="http://neondataskills.org/images/spatialData/BufferSquare.png" /></a>
+    <figcaption> Extract raster information using a polygon boundary. We can
+    extract all pixel values within 20m of our x,y point of interest. These can
+    then be summarized into some value of interest (e.g. mean, maximum, total).
+    Source: National Ecological Observatory Network (NEON).
+    </figcaption>
+</figure>
+
+<p>To do this in <code class="highlighter-rouge">R</code>, we use the <code class="highlighter-rouge">extract()</code> function. The <code class="highlighter-rouge">extract()</code> function
+requires:</p>
+
+<ul>
+  <li>The raster that we wish to extract values from,</li>
+  <li>The vector layer containing the polygons that we wish to use as a boundary or
+boundaries,</li>
+  <li>we can tell it to store the output values in a <code class="highlighter-rouge">data.frame</code> using
+<code class="highlighter-rouge">df=TRUE</code> (optional, default is to NOT return a <code class="highlighter-rouge">data.frame</code>) .</li>
+</ul>
+
+<p>We will begin by extracting all canopy height pixel values located within our
+<code class="highlighter-rouge">aoiBoundary</code> polygon which surrounds the tower located at the NEON Harvard
+Forest field site.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># extract tree height for AOI</span><span class="w">
+</span><span class="c1"># set df=TRUE to return a data.frame rather than a list of values</span><span class="w">
+</span><span class="n">tree_height</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chm_HARV</span><span class="p">,</span><span class="w">
+                       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as</span><span class="p">(</span><span class="n">aoi_boundary_HARV</span><span class="p">,</span><span class="w"> </span><span class="s2">"Spatial"</span><span class="p">),</span><span class="w">
+                       </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view the object</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">tree_height</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ID HARV_chmCrop
+1  1        21.20
+2  1        23.85
+3  1        23.83
+4  1        22.36
+5  1        23.95
+6  1        23.89
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nrow</span><span class="p">(</span><span class="n">tree_height</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 18450
+</code></pre></div></div>
+
+<p>When we use the extract command, <code class="highlighter-rouge">R</code> extracts the value for each pixel located
+within the boundary of the polygon being used to perform the extraction - in
+this case the <code class="highlighter-rouge">aoiBoundary</code> object (1 single polygon). In this case, the
+function extracted values from 18,450 pixels.</p>
+
+<p>The <code class="highlighter-rouge">extract</code> function returns a <code class="highlighter-rouge">list</code> of values as default. You can tell <code class="highlighter-rouge">R</code>
+to summarize the data in some way or to return the data as a <code class="highlighter-rouge">data.frame</code>
+(<code class="highlighter-rouge">df=TRUE</code>).</p>
+
+<p>We can create a histogram of tree height values within the boundary to better
+understand the structure or height distribution of trees. We can also use the
+<code class="highlighter-rouge">summary()</code> function to view descriptive statistics including min, max and mean
+height values. These values help us better understand vegetation at our field
+site.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view histogram of tree heights in study area</span><span class="w">
+</span><span class="n">hist</span><span class="p">(</span><span class="n">tree_height</span><span class="o">$</span><span class="n">HARV_chmCrop</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Histogram of CHM Height Values (m) \nNEON Harvard Forest Field Site"</span><span class="p">,</span><span class="w">
+     </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"springgreen"</span><span class="p">,</span><span class="w">
+     </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Tree Height"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Frequency of Pixels"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-view-extract-histogram-1.png" title="plot of chunk view-extract-histogram" alt="plot of chunk view-extract-histogram" style="display: block; margin: auto;" /></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view summary of values</span><span class="w">
+</span><span class="n">summary</span><span class="p">(</span><span class="n">tree_height</span><span class="o">$</span><span class="n">HARV_chmCrop</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   2.03   21.36   22.81   22.43   23.97   38.17 
+</code></pre></div></div>
+
+<ul>
+  <li>Check out the documentation for the <code class="highlighter-rouge">extract()</code> function for more details
+(<code class="highlighter-rouge">??raster::extract</code>).</li>
+</ul>
+
+<h2 id="summarize-extracted-raster-values">Summarize Extracted Raster Values</h2>
+
+<p>We often want to extract summary values from a raster. We can tell <code class="highlighter-rouge">R</code> the type
+of summary statistic we are interested in using the <code class="highlighter-rouge">fun=</code> method. Let’s extract
+a mean height value for our AOI.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># extract the average tree height (calculated using the raster pixels)</span><span class="w">
+</span><span class="c1"># located within the AOI polygon</span><span class="w">
+</span><span class="n">av_tree_height_AOI</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chm_HARV</span><span class="p">,</span><span class="w">
+                              </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as</span><span class="p">(</span><span class="n">aoi_boundary_HARV</span><span class="p">,</span><span class="w"> </span><span class="s2">"Spatial"</span><span class="p">),</span><span class="w">
+                              </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">,</span><span class="w">
+                              </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view output</span><span class="w">
+</span><span class="n">av_tree_height_AOI</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ID HARV_chmCrop
+1  1     22.43018
+</code></pre></div></div>
+
+<p>It appears that the mean height value, extracted from our LiDAR data derived
+canopy height model is 22.43 meters.</p>
+
+<p>##Extract Data using x,y Locations</p>
+
+<p>We can also extract pixel values from a raster by defining a buffer or area
+surrounding individual point locations using the <code class="highlighter-rouge">extract()</code> function. To do this
+we define the summary method (<code class="highlighter-rouge">fun=mean</code>) and the buffer distance (<code class="highlighter-rouge">buffer=20</code>)
+which represents the radius of a circular region around each point.</p>
+
+<p>The units of the buffer are the same units of the data <code class="highlighter-rouge">CRS</code>.</p>
+
+<figure>
+    <a href="http://neondataskills.org/images/spatialData/BufferCircular.png">
+    <img src="http://neondataskills.org/images/spatialData/BufferCircular.png" /></a>
+    <figcaption> Extract raster information using a buffer region. All pixels
+    that are touched by the buffer region are included in the extract.
+    Source: National Ecological Observatory Network (NEON).
+    </figcaption>
+</figure>
+
+<p>Let’s put this into practice by figuring out the average tree height in the
+20m around the tower location.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># what are the units of our buffer</span><span class="w">
+</span><span class="n">st_crs</span><span class="p">(</span><span class="n">point_HARV</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$epsg
+[1] 32618
+
+$proj4string
+[1] "+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs"
+
+attr(,"class")
+[1] "crs"
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># extract the average tree height (height is given by the raster pixel value)</span><span class="w">
+</span><span class="c1"># at the tower location</span><span class="w">
+</span><span class="c1"># use a buffer of 20 meters and mean function (fun)</span><span class="w">
+</span><span class="n">av_tree_height_tower</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chm_HARV</span><span class="p">,</span><span class="w">
+                                </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as</span><span class="p">(</span><span class="n">point_HARV</span><span class="p">,</span><span class="w"> </span><span class="s2">"Spatial"</span><span class="p">),</span><span class="w">
+                                </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w">
+                                </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">,</span><span class="w">
+                                </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view data</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">av_tree_height_tower</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ID HARV_chmCrop
+1  1     22.38812
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># how many pixels were extracted</span><span class="w">
+</span><span class="n">nrow</span><span class="p">(</span><span class="n">av_tree_height_tower</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 1
+</code></pre></div></div>
+
+<blockquote class="challenge">
+  <h2 id="challenge-extract-raster-height-values-for-plot-locations">Challenge: Extract Raster Height Values For Plot Locations</h2>
+
+  <p>Use the plot location points shapefile <code class="highlighter-rouge">HARV/plot_locations_HARV.shp</code> or spatial
+object <code class="highlighter-rouge">plot_locations_sp_HARV</code> to extract an average tree height value for the
+area within 20m of each vegetation plot location in the study area.</p>
+
+  <p>Create a simple plot showing the mean tree height of each plot using the <code class="highlighter-rouge">plot()</code>
+function in base-R.</p>
+
+  <blockquote class="solution">
+    <h2 id="answers-1">Answers</h2>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># first import the plot location file.</span><span class="w">
+</span><span class="n">plot_locations_sp_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s2">"data/NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># extract data at each plot location</span><span class="w">
+</span><span class="n">meanTreeHt_plots_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chm_HARV</span><span class="p">,</span><span class="w">
+                               </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as</span><span class="p">(</span><span class="n">plot_locations_sp_HARV</span><span class="p">,</span><span class="w"> </span><span class="s2">"Spatial"</span><span class="p">),</span><span class="w">
+                               </span><span class="n">buffer</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w">
+                               </span><span class="n">fun</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span><span class="w">
+                               </span><span class="n">df</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view data</span><span class="w">
+</span><span class="n">meanTreeHt_plots_HARV</span><span class="w">
+
+</span><span class="c1"># plot data</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">meanTreeHt_plots_HARV</span><span class="p">,</span><span class="w">
+     </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MeanTree Height at each Plot\nNEON Harvard Forest Field Site"</span><span class="p">,</span><span class="w">
+     </span><span class="n">xlab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Plot ID"</span><span class="p">,</span><span class="w"> </span><span class="n">ylab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Tree Height (m)"</span><span class="p">,</span><span class="w">
+     </span><span class="n">pch</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <p><img src="../fig/rmd-challenge-code-extract-plot-tHeight-1.png" title="plot of chunk challenge-code-extract-plot-tHeight" alt="plot of chunk challenge-code-extract-plot-tHeight" style="display: block; margin: auto;" /></p>
+  </blockquote>
+</blockquote>
+
+
+<blockquote class="keypoints">
+  <h2>Key Points</h2>
+  <ul>
+    
+    <li>
+</li>
+    
+  </ul>
+</blockquote>
+
+</article>
+
+<div class="row">
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../10-vector-csv-to-shapefile-in-r/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span class="sr-only">previous episode</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-md-10">
+    
+  </div>
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../12-time-series-raster/"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+
+      
+      
+<footer>
+  <div class="row">
+    <div class="col-md-6" align="left">
+      <h4>
+	Copyright &copy; 2016–2018
+	
+	<a href="http://datacarpentry.org">Data Carpentry</a>
+	
+      </h4>
+    </div>
+    <div class="col-md-6" align="right">
+      <h4>
+	
+	<a href="/edit/gh-pages/_episodes/11-vector-raster-integration.md">Edit on GitHub</a>
+	
+	/
+	<a href="/blob/gh-pages/CONTRIBUTING.md">Contributing</a>
+	/
+	<a href="/">Source</a>
+	/
+	<a href="/blob/gh-pages/CITATION">Cite</a>
+	/
+	<a href="mailto:lessons@software-carpentry.org">Contact</a>
+      </h4>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/lesson.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37305346-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </body>
+</html>

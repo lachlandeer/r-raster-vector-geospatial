@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="last-modified" content="2018-04-06 21:35:58 +0000">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- meta "search-domain" used for google site search function google_search() -->
+    <meta name="search-domain" value="">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/lesson.css" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon-dc.ico" />
+    
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+    <title>Intro to Geospatial Data with R: Plot Raster Time Series Data in R</title>
+  </head>
+  <body>
+    <div class="container">
+      
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      
+      
+      <a href="http://datacarpentry.org" class="pull-left">
+        <img class="navbar-logo" src="../assets/img/dc-icon-black.svg" alt="Data Carpentry logo" />
+      </a>
+      
+
+      
+      <a class="navbar-brand" href="../">Home</a>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+	
+        <li><a href="../conduct/">Code of Conduct</a></li>
+
+	
+        
+        <li><a href="../setup/">Setup</a></li>
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Episodes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            <li><a href="../01-raster-structure/">Intro to Raster Data in R</a></li>
+            
+            <li><a href="../02-raster-plot/">Plot Raster Data in R</a></li>
+            
+            <li><a href="../03-raster-reproject-in-r/">Reproject Raster Data in R</a></li>
+            
+            <li><a href="../04-raster-calculations-in-r/">Raster Calculations in R</a></li>
+            
+            <li><a href="../05-raster-multi-band-in-r/">Work With Multi-Band Rasters in R</a></li>
+            
+            <li><a href="../06-vector-open-shapefile-in-r/">Open and Plot Shapefiles in R</a></li>
+            
+            <li><a href="../07-vector-shapefile-attributes-in-r/">Explore and Plot by Shapefile Attributes</a></li>
+            
+            <li><a href="../08-vector-plot-shapefiles-custom-legend/">Plot Multiple Shapefiles in R</a></li>
+            
+            <li><a href="../09-vector-when-data-dont-line-up-crs/">Handling Spatial Projection & CRS in R</a></li>
+            
+            <li><a href="../10-vector-csv-to-shapefile-in-r/">Convert from .csv to a Shapefile in R</a></li>
+            
+            <li><a href="../11-vector-raster-integration/">Manipulate Raster Data in R</a></li>
+            
+            <li><a href="../12-time-series-raster/">Raster Time Series Data in R</a></li>
+            
+            <li><a href="../13-plot-time-series-rasters-in-r/">Plot Raster Time Series Data in R</a></li>
+            
+            <li><a href="../14-extract-ndvi-from-rasters-in-r/">Derive Values from Raster Time Series</a></li>
+            
+	    <li role="separator" class="divider"></li>
+            <li><a href="../aio/">All in one page (Beta)</a></li>
+          </ul>
+        </li>
+	
+
+	
+	
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Extras <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../reference/">Reference</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+        <li><a href="../license/">License</a></li>
+	
+	<li><a href="/edit/gh-pages/_episodes/13-plot-time-series-rasters-in-r.md">Improve this page <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></li>
+	
+      </ul>
+      <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<div class="row">
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../12-time-series-raster/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span class="sr-only">previous episode</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-md-10">
+    
+    <h3 class="maintitle"><a href="../">Intro to Geospatial Data with R</a></h3>
+    
+  </div>
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../14-extract-ndvi-from-rasters-in-r/"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+<article>
+<div class="row">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-10">
+    <h1 class="maintitle">Plot Raster Time Series Data in R</h1>
+  </div>
+  <div class="col-md-1">
+  </div>
+</div>
+
+
+<blockquote class="testimonial">
+  <h2>Authors</h2>
+    Leah A. Wasser, Megan A. Jones, Zack Brym, Kristina Riemer, Jason Williams, Jeff Hollister, Mike Smorul, Joseph Stachelek
+</blockquote>
+
+<blockquote class="objectives">
+  <h2>Overview</h2>
+
+  <div class="row">
+    <div class="col-md-3">
+      <strong>Teaching:</strong> 10 min
+      <br/>
+      <strong>Exercises:</strong> 0 min
+    </div>
+    <div class="col-md-9">
+      <strong>Questions</strong>
+      <ul>
+	
+	<li>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-9">
+      <strong>Objectives</strong>
+      <ul>
+	
+	<li><p>Be able to assign custom names to bands in a RasterStack for prettier plotting.</p>
+</li>
+	
+	<li><p>Understand advanced plotting of rasters using the <code class="highlighter-rouge">rasterVis</code> package and <code class="highlighter-rouge">levelplot</code>.</p>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+</blockquote>
+
+<blockquote class="prereq">
+  <h2 id="things-youll-need-to-complete-this-tutorial">Things You’ll Need To Complete This Tutorial</h2>
+  <p><strong>R Skill Level:</strong> Intermediate - you’ve got the basics of <code class="highlighter-rouge">R</code> down.
+You will need the most current version of <code class="highlighter-rouge">R</code> and, preferably, <code class="highlighter-rouge">RStudio</code> loaded
+on your computer to complete this tutorial.</p>
+
+  <h3 id="install-r-packages">Install R Packages</h3>
+
+  <ul>
+    <li><strong>raster:</strong> <code class="highlighter-rouge">install.packages("raster")</code></li>
+    <li><strong>rgdal:</strong> <code class="highlighter-rouge">install.packages("rgdal")</code></li>
+    <li>
+      <p><strong>rasterVis:</strong> <code class="highlighter-rouge">install.packages("rasterVis")</code></p>
+    </li>
+    <li><a href="/R/Packages-In-R/">More on Packages in R - Adapted from Software Carpentry.</a></li>
+  </ul>
+
+  <h4 id="data-to-download">Data to Download</h4>
+</blockquote>
+
+<p>This tutorial covers how to improve plotting output using the <code class="highlighter-rouge">rasterVis</code> package
+in <code class="highlighter-rouge">R</code>. Specifically it covers using <code class="highlighter-rouge">levelplot()</code> and adding meaningful custom
+names to bands within a <code class="highlighter-rouge">RasterStack</code>.</p>
+
+<h2 id="get-started">Get Started</h2>
+<p>In this tutorial, we are working with the same set of rasters used in the
+<a href="/R/Raster-Times-Series-Data-In-R/">Raster Time Series Data in R </a>
+tutorial. This data is derived from the Landsat satellite and stored in
+<code class="highlighter-rouge">GeoTIFF</code> format. Each raster covers the
+<a href="http://www.neonscience.org/science-design/field-sites/harvard-forest" target="_blank">NEON Harvard Forest field site</a>.</p>
+
+<p>If you have not already created the RasterStack, originally created in
+<a href="/R/Raster-Times-Series-Data-In-R/">Raster Time Series Data in R </a>,
+please create it now.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">raster</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading required package: sp
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">rgdal</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rgdal: version: 1.2-8, (SVN revision 663)
+ Geospatial Data Abstraction Library extensions to R successfully loaded
+ Loaded GDAL runtime: GDAL 2.2.1, released 2017/06/23
+ Path to GDAL shared files: /usr/share/gdal/2.2
+ Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
+ Path to PROJ.4 shared files: (autodetected)
+ Linking to sp version: 1.2-5 
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">rasterVis</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading required package: lattice
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading required package: latticeExtra
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading required package: RColorBrewer
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create list of NDVI file paths</span><span class="w">
+</span><span class="n">all_NDVI_HARV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">list.files</span><span class="p">(</span><span class="s2">"data/NEON-DS-Landsat-NDVI/HARV/2011/NDVI"</span><span class="p">,</span><span class="w"> </span><span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">".tif$"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Create a time series raster stack</span><span class="w">
+</span><span class="n">NDVI_HARV_stack</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">stack</span><span class="p">(</span><span class="n">all_NDVI_HARV</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># apply scale factor</span><span class="w">
+</span><span class="n">NDVI_HARV_stack</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">NDVI_HARV_stack</span><span class="o">/</span><span class="m">10000</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="plot-raster-time-series-data">Plot Raster Time Series Data</h2>
+<p>We can use the <code class="highlighter-rouge">plot</code> function to plot our raster time series data.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view a histogram of all of the rasters</span><span class="w">
+</span><span class="c1"># nc specifies number of columns</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">,</span><span class="w">
+     </span><span class="n">zlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">.15</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">
+     </span><span class="n">nc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-plot-time-series-1.png" title="plot of chunk plot-time-series" alt="plot of chunk plot-time-series" style="display: block; margin: auto;" /></p>
+
+<blockquote class="callout">
+  <h2 id="data-tip">Data Tip</h2>
+  <p>The range of values for NDVI is 0-1.
+However, the data stored in our raster ranges from 0 - 10,000. If we view the
+metadata for the original .tif files, we will see a scale factor of 10,000 is
+defined.
+Multiplying values with decimal places by a factor of 10, allows the data to be
+stored in integer format (no decimals) rather than a floating point format
+(containing decimals). This keeps the file size smaller.</p>
+</blockquote>
+
+<p>Our plot is nice however, it’s missing some key elements including, easily
+readable titles. It also contains a legend that is repeated for each image. We
+can use <code class="highlighter-rouge">levelplot</code> from the <code class="highlighter-rouge">rasterVis</code> package to make our plot prettier!</p>
+
+<ul>
+  <li><a href="http://oscarperpinan.github.io/rastervis/" target="_blank">More on
+the <code class="highlighter-rouge">rasterVis</code> package</a></li>
+</ul>
+
+<p>The syntax for the <code class="highlighter-rouge">levelplot()</code> function is similar to that for the <code class="highlighter-rouge">plot()</code>
+function. We use <code class="highlighter-rouge">main = "TITLE"</code> to add a title to the entire plot series.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create a `levelplot` plot</span><span class="w">
+</span><span class="n">levelplot</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">,</span><span class="w">
+          </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Landsat NDVI\nNEON Harvard Forest"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-levelplot-time-series-1.png" title="plot of chunk levelplot-time-series" alt="plot of chunk levelplot-time-series" style="display: block; margin: auto;" /></p>
+
+<h2 id="adjust-the-color-ramp">Adjust the Color Ramp</h2>
+<p>Next, let’s adjust the color ramp used to render the rasters. First, we
+can change the red color ramp to a green one that is more visually suited to our
+NDVI (greenness) data using the <code class="highlighter-rouge">colorRampPalette()</code> function in combination with
+<code class="highlighter-rouge">colorBrewer</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># use colorbrewer which loads with the rasterVis package to generate</span><span class="w">
+</span><span class="c1"># a color ramp of yellow to green</span><span class="w">
+</span><span class="n">cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">colorRampPalette</span><span class="p">(</span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="s2">"YlGn"</span><span class="p">))</span><span class="w">
+</span><span class="c1"># create a level plot - plot</span><span class="w">
+</span><span class="n">levelplot</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">,</span><span class="w">
+        </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Landsat NDVI -- Improved Colors \nNEON Harvard Forest Field Site"</span><span class="p">,</span><span class="w">
+        </span><span class="n">col.regions</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-change-color-ramp-1.png" title="plot of chunk change-color-ramp" alt="plot of chunk change-color-ramp" style="display: block; margin: auto;" /></p>
+
+<p>The yellow to green color ramp visually represents NDVI well given it’s a
+measure of greenness. Someone looking at the plot can quickly understand that
+pixels that are more green, have a higher NDVI value.</p>
+
+<ul>
+  <li>For all of the <code class="highlighter-rouge">brewer.pal</code> ramp names see the
+<a href="http://www.datavis.ca/sasmac/brewerpal.html" target="_blank">
+brewerpal page</a>.</li>
+</ul>
+
+<blockquote class="callout">
+  <h2 id="data-tip-1">Data Tip</h2>
+  <p>Cynthia Brewer, the creater of
+ColorBrewer, offers an online tool to help choose suitable color ramps, or to
+create your own. <a href="http://colorbrewer2.org/" target="_blank">
+ColorBrewer 2.0; Color Advise for Cartography </a></p>
+</blockquote>
+
+<h2 id="refine-plot--tile-labels">Refine Plot &amp; Tile Labels</h2>
+<p>Next, let’s label each raster in our plot with the Julian day that the raster
+represents. The current names come from the band (layer names) stored in the
+<code class="highlighter-rouge">RasterStack</code> and first part each name is the Julian day.</p>
+
+<p>To create a more meaningful label we can remove the “x” and replace it with
+“day” using the <code class="highlighter-rouge">gsub()</code> function in <code class="highlighter-rouge">R</code>. The syntax is as follows:
+<code class="highlighter-rouge">gsub("StringToReplace", "TextToReplaceIt", Robject)</code>.</p>
+
+<p>First let’s remove “_HARV_NDVI_crop” from each label.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># view names for each raster layer</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [1] "X005_HARV_ndvi_crop" "X037_HARV_ndvi_crop" "X085_HARV_ndvi_crop"
+ [4] "X133_HARV_ndvi_crop" "X181_HARV_ndvi_crop" "X197_HARV_ndvi_crop"
+ [7] "X213_HARV_ndvi_crop" "X229_HARV_ndvi_crop" "X245_HARV_ndvi_crop"
+[10] "X261_HARV_ndvi_crop" "X277_HARV_ndvi_crop" "X293_HARV_ndvi_crop"
+[13] "X309_HARV_ndvi_crop"
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># use gsub to modify label names.that we'll use for the plot</span><span class="w">
+</span><span class="n">rasterNames</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"X"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Day "</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># view Names</span><span class="w">
+</span><span class="n">rasterNames</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [1] "Day 005_HARV_ndvi_crop" "Day 037_HARV_ndvi_crop"
+ [3] "Day 085_HARV_ndvi_crop" "Day 133_HARV_ndvi_crop"
+ [5] "Day 181_HARV_ndvi_crop" "Day 197_HARV_ndvi_crop"
+ [7] "Day 213_HARV_ndvi_crop" "Day 229_HARV_ndvi_crop"
+ [9] "Day 245_HARV_ndvi_crop" "Day 261_HARV_ndvi_crop"
+[11] "Day 277_HARV_ndvi_crop" "Day 293_HARV_ndvi_crop"
+[13] "Day 309_HARV_ndvi_crop"
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Remove HARV_NDVI_crop from the second part of the string</span><span class="w">
+</span><span class="n">rasterNames</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"_HARV_ndvi_crop"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">rasterNames</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># view names for each raster layer</span><span class="w">
+</span><span class="n">rasterNames</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [1] "Day 005" "Day 037" "Day 085" "Day 133" "Day 181" "Day 197" "Day 213"
+ [8] "Day 229" "Day 245" "Day 261" "Day 277" "Day 293" "Day 309"
+</code></pre></div></div>
+
+<blockquote class="callout">
+  <h2 id="data-tip-2">Data Tip</h2>
+  <p>Instead of substituting “x” and
+“_HARV_NDVI_crop” separately, we could have used use the vertical bar character
+( | ) to replace more than one element.
+For example “X|_HARV” tells <code class="highlighter-rouge">R</code> to replace all instances of both “X” and “_HARV”
+in the string. Example code to remove “x” an “_HARV…”:
+<code class="highlighter-rouge">gsub("X|_HARV_NDVI_crop"," |  ","rasterNames")</code></p>
+</blockquote>
+
+<p>Once the names for each band have been reassigned, we can render our plot with
+the new labels using <code class="highlighter-rouge">names.attr=rasterNames</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># use level plot to create a nice plot with one legend and a 4x4 layout.</span><span class="w">
+</span><span class="n">levelplot</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">,</span><span class="w">
+          </span><span class="n">layout</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="c1"># create a 4x4 layout for the data</span><span class="w">
+          </span><span class="n">col.regions</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span><span class="w"> </span><span class="c1"># add a color ramp</span><span class="w">
+          </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Landsat NDVI - Julian Days \nHarvard Forest 2011"</span><span class="p">,</span><span class="w">
+          </span><span class="n">names.attr</span><span class="o">=</span><span class="n">rasterNames</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-create-levelplot-1.png" title="plot of chunk create-levelplot" alt="plot of chunk create-levelplot" style="display: block; margin: auto;" /></p>
+
+<p>We can adjust the columns of our plot too using <code class="highlighter-rouge">layout=c(cols, rows)</code>. Below
+we adjust the layout to be a matrix of 5 columns and 3 rows.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># use level plot to create a nice plot with one legend and a 4x4 layout.</span><span class="w">
+</span><span class="n">levelplot</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">,</span><span class="w">
+          </span><span class="n">layout</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="c1"># create a 5x3 layout for the data</span><span class="w">
+          </span><span class="n">col.regions</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span><span class="w"> </span><span class="c1"># add a color ramp</span><span class="w">
+          </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Landsat NDVI - Julian Days \nHarvard Forest 2011"</span><span class="p">,</span><span class="w">
+          </span><span class="n">names.attr</span><span class="o">=</span><span class="n">rasterNames</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-adjust-layout-1.png" title="plot of chunk adjust-layout" alt="plot of chunk adjust-layout" style="display: block; margin: auto;" /></p>
+
+<p>Finally, <code class="highlighter-rouge">scales</code> allows us to modify the x and y-axis scale. Let’s simply
+remove the axis ticks from the plot with <code class="highlighter-rouge">scales =list(draw=FALSE)</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># use level plot to create a nice plot with one legend and a 4x4 layout.</span><span class="w">
+</span><span class="n">levelplot</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">,</span><span class="w">
+          </span><span class="n">layout</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="c1"># create a 5x3 layout for the data</span><span class="w">
+          </span><span class="n">col.regions</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span><span class="w"> </span><span class="c1"># add a color ramp</span><span class="w">
+          </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Landsat NDVI - Julian Days \nHarvard Forest 2011"</span><span class="p">,</span><span class="w">
+          </span><span class="n">names.attr</span><span class="o">=</span><span class="n">rasterNames</span><span class="p">,</span><span class="w">
+          </span><span class="n">scales</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">draw</span><span class="o">=</span><span class="kc">FALSE</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="c1"># remove axes labels &amp; ticks</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="../fig/rmd-remove-axis-ticks-1.png" title="plot of chunk remove-axis-ticks" alt="plot of chunk remove-axis-ticks" style="display: block; margin: auto;" /></p>
+
+<blockquote class="challenge">
+  <h2 id="challenge-divergent-color-ramps">Challenge: Divergent Color Ramps</h2>
+
+  <p>When we used <code class="highlighter-rouge">gsub</code> to modify the tile labels we replaced the beginning of each
+tile title with “Day”. A more descriptive name could be “Julian Day”.</p>
+
+  <ol>
+    <li>Create a plot and label each tile “Julian Day” with the julian day value
+following.</li>
+    <li>Change the colorramp to a divergent brown to green color ramp to
+represent the data. <em>Hint:</em> Use the
+<a href="http://www.datavis.ca/sasmac/brewerpal.html" target="_blank"> brewerpal page</a>
+to help choose a color ramp.</li>
+  </ol>
+
+  <p><strong>Questions:</strong>
+Does having a divergent color ramp represent the data
+better than a sequential color ramp (like “YlGn”)? Can you think of other data
+sets where a divergent color ramp may be best?</p>
+
+  <blockquote class="solution">
+    <h2 id="answers">Answers</h2>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># change Day to Julian Day</span><span class="w">
+</span><span class="n">rasterNames</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">gsub</span><span class="p">(</span><span class="s2">"Day"</span><span class="p">,</span><span class="s2">"Julian Day "</span><span class="p">,</span><span class="w"> </span><span class="n">rasterNames</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># use level plot to create a nice plot with one legend and a 5x3 layout.</span><span class="w">
+</span><span class="n">levelplot</span><span class="p">(</span><span class="n">NDVI_HARV_stack</span><span class="p">,</span><span class="w">
+      </span><span class="n">layout</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="c1"># create a 4x3 layout for the data</span><span class="w">
+      </span><span class="n">col.regions</span><span class="o">=</span><span class="n">colorRampPalette</span><span class="p">(</span><span class="n">brewer.pal</span><span class="p">(</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="s2">"BrBG"</span><span class="p">)),</span><span class="w"> </span><span class="c1"># specify color</span><span class="w">
+      </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Landsat NDVI - Julian Days - 2011 \nNEON Harvard Forest Field Site"</span><span class="p">,</span><span class="w">
+      </span><span class="n">names.attr</span><span class="o">=</span><span class="n">rasterNames</span><span class="p">)</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <p><img src="../fig/rmd-challenge-code-levelplot-divergent-1.png" title="plot of chunk challenge-code-levelplot-divergent" alt="plot of chunk challenge-code-levelplot-divergent" style="display: block; margin: auto;" /></p>
+
+    <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># The sequential is better than the divergent as it is more akin to the process</span><span class="w">
+</span><span class="c1"># of greening up, which starts off at one end and just keeps increasing.</span><span class="w">
+</span></code></pre></div>    </div>
+  </blockquote>
+</blockquote>
+
+
+<blockquote class="keypoints">
+  <h2>Key Points</h2>
+  <ul>
+    
+    <li>
+</li>
+    
+  </ul>
+</blockquote>
+
+</article>
+
+<div class="row">
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../12-time-series-raster/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span class="sr-only">previous episode</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-md-10">
+    
+  </div>
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../14-extract-ndvi-from-rasters-in-r/"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+
+      
+      
+<footer>
+  <div class="row">
+    <div class="col-md-6" align="left">
+      <h4>
+	Copyright &copy; 2016–2018
+	
+	<a href="http://datacarpentry.org">Data Carpentry</a>
+	
+      </h4>
+    </div>
+    <div class="col-md-6" align="right">
+      <h4>
+	
+	<a href="/edit/gh-pages/_episodes/13-plot-time-series-rasters-in-r.md">Edit on GitHub</a>
+	
+	/
+	<a href="/blob/gh-pages/CONTRIBUTING.md">Contributing</a>
+	/
+	<a href="/">Source</a>
+	/
+	<a href="/blob/gh-pages/CITATION">Cite</a>
+	/
+	<a href="mailto:lessons@software-carpentry.org">Contact</a>
+      </h4>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/lesson.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37305346-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </body>
+</html>

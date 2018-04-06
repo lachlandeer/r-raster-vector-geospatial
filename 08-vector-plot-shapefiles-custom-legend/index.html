@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="last-modified" content="2018-04-06 21:35:58 +0000">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- meta "search-domain" used for google site search function google_search() -->
+    <meta name="search-domain" value="">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/lesson.css" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon-dc.ico" />
+    
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+    <title>Intro to Geospatial Data with R: Plot Multiple Shapefiles in R</title>
+  </head>
+  <body>
+    <div class="container">
+      
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      
+      
+      <a href="http://datacarpentry.org" class="pull-left">
+        <img class="navbar-logo" src="../assets/img/dc-icon-black.svg" alt="Data Carpentry logo" />
+      </a>
+      
+
+      
+      <a class="navbar-brand" href="../">Home</a>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+	
+        <li><a href="../conduct/">Code of Conduct</a></li>
+
+	
+        
+        <li><a href="../setup/">Setup</a></li>
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Episodes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            
+            <li><a href="../01-raster-structure/">Intro to Raster Data in R</a></li>
+            
+            <li><a href="../02-raster-plot/">Plot Raster Data in R</a></li>
+            
+            <li><a href="../03-raster-reproject-in-r/">Reproject Raster Data in R</a></li>
+            
+            <li><a href="../04-raster-calculations-in-r/">Raster Calculations in R</a></li>
+            
+            <li><a href="../05-raster-multi-band-in-r/">Work With Multi-Band Rasters in R</a></li>
+            
+            <li><a href="../06-vector-open-shapefile-in-r/">Open and Plot Shapefiles in R</a></li>
+            
+            <li><a href="../07-vector-shapefile-attributes-in-r/">Explore and Plot by Shapefile Attributes</a></li>
+            
+            <li><a href="../08-vector-plot-shapefiles-custom-legend/">Plot Multiple Shapefiles in R</a></li>
+            
+            <li><a href="../09-vector-when-data-dont-line-up-crs/">Handling Spatial Projection & CRS in R</a></li>
+            
+            <li><a href="../10-vector-csv-to-shapefile-in-r/">Convert from .csv to a Shapefile in R</a></li>
+            
+            <li><a href="../11-vector-raster-integration/">Manipulate Raster Data in R</a></li>
+            
+            <li><a href="../12-time-series-raster/">Raster Time Series Data in R</a></li>
+            
+            <li><a href="../13-plot-time-series-rasters-in-r/">Plot Raster Time Series Data in R</a></li>
+            
+            <li><a href="../14-extract-ndvi-from-rasters-in-r/">Derive Values from Raster Time Series</a></li>
+            
+	    <li role="separator" class="divider"></li>
+            <li><a href="../aio/">All in one page (Beta)</a></li>
+          </ul>
+        </li>
+	
+
+	
+	
+        <li class="dropdown">
+          <a href="../" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Extras <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="../reference/">Reference</a></li>
+            
+          </ul>
+        </li>
+	
+
+	
+        <li><a href="../license/">License</a></li>
+	
+	<li><a href="/edit/gh-pages/_episodes/08-vector-plot-shapefiles-custom-legend.md">Improve this page <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></li>
+	
+      </ul>
+      <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<div class="row">
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../07-vector-shapefile-attributes-in-r/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span class="sr-only">previous episode</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-md-10">
+    
+    <h3 class="maintitle"><a href="../">Intro to Geospatial Data with R</a></h3>
+    
+  </div>
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../09-vector-when-data-dont-line-up-crs/"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+<article>
+<div class="row">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-10">
+    <h1 class="maintitle">Plot Multiple Shapefiles in R</h1>
+  </div>
+  <div class="col-md-1">
+  </div>
+</div>
+
+
+<blockquote class="testimonial">
+  <h2>Authors</h2>
+    Joseph Stachelek, Leah A. Wasser, Megan A. Jones
+</blockquote>
+
+<blockquote class="objectives">
+  <h2>Overview</h2>
+
+  <div class="row">
+    <div class="col-md-3">
+      <strong>Teaching:</strong> 10 min
+      <br/>
+      <strong>Exercises:</strong> 0 min
+    </div>
+    <div class="col-md-9">
+      <strong>Questions</strong>
+      <ul>
+	
+	<li><p>How to create map compositions with custom legends in base plot.</p>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-9">
+      <strong>Objectives</strong>
+      <ul>
+	
+	<li><p>Be able to plot multiple shapefiles using base R graphics.</p>
+</li>
+	
+	<li><p>Be able to apply custom symbology to spatial objects in a plot in R.</p>
+</li>
+	
+	<li><p>Be able to customize a baseplot legend in R.</p>
+</li>
+	
+      </ul>
+    </div>
+  </div>
+
+</blockquote>
+
+<blockquote class="prereq">
+  <h2 id="things-youll-need-to-complete-this-tutorial">Things You’ll Need To Complete This Tutorial</h2>
+  <p><strong>R Skill Level:</strong> Intermediate - you’ve got the basics of <code class="highlighter-rouge">R</code> down.
+You will need the most current version of <code class="highlighter-rouge">R</code> and, preferably, <code class="highlighter-rouge">RStudio</code> loaded
+on your computer to complete this tutorial.</p>
+
+  <h3 id="install-r-packages">Install R Packages</h3>
+
+  <ul>
+    <li><strong>raster:</strong> <code class="highlighter-rouge">install.packages("raster")</code></li>
+    <li><strong>sf:</strong> <code class="highlighter-rouge">install.packages("sf")</code></li>
+  </ul>
+
+  <p><a href="/R/Packages-In-R/">More on Packages in R - Adapted from Software Carpentry.</a></p>
+
+  <h2 id="download-data">Download Data</h2>
+  <ul>
+    <li><a href="https://ndownloader.figshare.com/files/3708751">Site layout shapefiles</a></li>
+  </ul>
+</blockquote>
+
+<p>This tutorial builds upon
+<a href="/R/shapefile-attributes-in-R/">the previous tutorial</a>
+to work with shapefile attributes in <code class="highlighter-rouge">R</code> and explores how to plot multiple
+shapefiles using base R graphics. It then covers
+how to create a custom legend with colors and symbols that match your plot.</p>
+
+<h2 id="load-the-data">Load the Data</h2>
+<p>To work with vector data in <code class="highlighter-rouge">R</code>, we can use the <code class="highlighter-rouge">sf</code> library. The <code class="highlighter-rouge">raster</code>
+package also allows us to explore metadata using similar commands for both
+raster and vector files.</p>
+
+<p>We will import three shapefiles. The first is our <code class="highlighter-rouge">AOI</code> or <em>area of
+interest</em> boundary polygon that we worked with in
+<a href="/R/open-shapefiles-in-R/">Open and Plot Shapefiles in R</a>.
+The second is a shapefile containing the location of roads and trails within the
+field site. The third is a file containing the Harvard Forest Fisher tower
+location. These latter two we worked with in the
+<a href="/R/shapefile-attributes-in-R/">Explore Shapefile Attributes &amp; Plot Shapefile Objects by Attribute Value in R</a> tutorial.</p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># load packages
+library(sf)
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linking to GEOS 3.5.0, GDAL 2.2.2, proj.4 4.8.0
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(raster)
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading required package: sp
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># set working directory to data folder
+# setwd("pathToDirHere")
+
+# Import a polygon shapefile
+aoi_boundary_HARV &lt;- st_read("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reading layer `HarClip_UTMZ18' from data source `/home/travis/build/datacarpentry/r-raster-vector-geospatial/_episodes_rmd/data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp' using driver `ESRI Shapefile'
+Simple feature collection with 1 feature and 1 field
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 732128 ymin: 4713209 xmax: 732251.1 ymax: 4713359
+epsg (SRID):    32618
+proj4string:    +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Import a line shapefile
+lines_HARV &lt;- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reading layer `HARV_roads' from data source `/home/travis/build/datacarpentry/r-raster-vector-geospatial/_episodes_rmd/data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp' using driver `ESRI Shapefile'
+Simple feature collection with 13 features and 15 fields
+geometry type:  MULTILINESTRING
+dimension:      XY
+bbox:           xmin: 730741.2 ymin: 4711942 xmax: 733295.5 ymax: 4714260
+epsg (SRID):    32618
+proj4string:    +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Import a point shapefile
+point_HARV &lt;- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reading layer `HARVtower_UTM18N' from data source `/home/travis/build/datacarpentry/r-raster-vector-geospatial/_episodes_rmd/data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp' using driver `ESRI Shapefile'
+Simple feature collection with 1 feature and 14 fields
+geometry type:  POINT
+dimension:      XY
+bbox:           xmin: 732183.2 ymin: 4713265 xmax: 732183.2 ymax: 4713265
+epsg (SRID):    32618
+proj4string:    +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+</code></pre></div></div>
+
+<h2 id="plot-data">Plot Data</h2>
+
+<p>In the
+<a href="/R/shapefile-attributes-in-R/"><em>Explore Shapefile Attributes &amp; Plot Shapefile Objects by Attribute Value in R</em> tutorial</a>
+we created a plot where we customized the width of each line in a spatial object
+according to a factor level or category. To do this, we create a vector of
+colors containing a color value for EACH feature in our spatial object grouped
+by factor level or category.</p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># view the factor levels
+levels(lines_HARV$TYPE)
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "boardwalk"  "footpath"   "stone wall" "woods road"
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create vector of line width values
+lineWidth &lt;- c(2, 4, 3, 8)[lines_HARV$TYPE]
+# view vector
+lineWidth
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [1] 8 4 4 3 3 3 3 3 3 2 8 8 8
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a color palette of 4 colors - one for each factor level
+road_palette &lt;- c("blue", "green", "grey", "purple")
+road_palette
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "blue"   "green"  "grey"   "purple"
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a vector of colors - one for each feature in our vector object
+# according to its attribute value
+road_colors &lt;- c("blue", "green", "grey", "purple")[lines_HARV$TYPE]
+road_colors
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [1] "purple" "green"  "green"  "grey"   "grey"   "grey"   "grey"  
+ [8] "grey"   "grey"   "blue"   "purple" "purple" "purple"
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create vector of line width values
+lineWidth &lt;- c(2, 4, 3, 8)[lines_HARV$TYPE]
+# view vector
+lineWidth
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [1] 8 4 4 3 3 3 3 3 3 2 8 8 8
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># in this case, boardwalk (the first level) is the widest.
+plot(lines_HARV$geometry,
+     col = road_colors,
+     main = "NEON Harvard Forest Field Site\n Roads &amp; Trails \nLine Width Varies by Type Attribute Value",
+     lwd = lineWidth)
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-08-plot-unique-lines-1.png" title="plot of chunk plot-unique-lines" alt="plot of chunk plot-unique-lines" style="display: block; margin: auto;" /></p>
+
+<blockquote class="callout">
+  <h2 id="data-tip">Data Tip</h2>
+  <p>Given we have a factor with 4 levels,
+we can create a vector of numbers, each of which specifies the thickness of each
+feature in our <code class="highlighter-rouge">sf</code> object by factor level (category): <code class="highlighter-rouge">c(6, 4, 1, 2)[lines_HARV$TYPE]</code></p>
+</blockquote>
+
+<h2 id="add-plot-legend">Add Plot Legend</h2>
+<p>In the
+<a href="/R/shapefile-attributes-in-R/">previous tutorial</a>,
+we also learned how to add a basic legend to our plot.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">bottomright</code>: We specify the <strong>location</strong> of our legend by using a default
+keyword. We could also use <code class="highlighter-rouge">top</code>, <code class="highlighter-rouge">topright</code>, etc.</li>
+  <li><code class="highlighter-rouge">levels(objectName$attributeName)</code>: Label the <strong>legend elements</strong> using the
+categories of <code class="highlighter-rouge">levels</code> in an attribute (e.g., levels(lines_HARV$TYPE) means use
+the levels boardwalk, footpath, etc).</li>
+  <li><code class="highlighter-rouge">fill=</code>: apply unique <strong>colors</strong> to the boxes in our legend. <code class="highlighter-rouge">palette()</code> is
+the default set of colors that <code class="highlighter-rouge">R</code> applies to all plots.</li>
+</ul>
+
+<p>Let’s add a legend to our plot.</p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plot(lines_HARV$geometry,
+     col = road_colors,
+     main = "NEON Harvard Forest Field Site\n Roads &amp; Trails\n Default Legend")
+
+# we can use the color object that we created above to color the legend objects
+road_palette
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "blue"   "green"  "grey"   "purple"
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add a legend to our map
+legend("bottomright",
+       legend = levels(lines_HARV$TYPE),
+       fill = road_palette,
+       bty = "n", # turn off the legend border
+       cex = .8) # decrease the font / legend size
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-08-add-legend-to-plot-1.png" title="plot of chunk add-legend-to-plot" alt="plot of chunk add-legend-to-plot" style="display: block; margin: auto;" /></p>
+
+<p>However, what if we want to create a more complex plot with many shapefiles
+and unique symbols that need to be represented clearly in a legend?</p>
+
+<h2 id="plot-multiple-vector-layers">Plot Multiple Vector Layers</h2>
+<p>Now, let’s create a plot that combines our tower location (<code class="highlighter-rouge">point_HARV</code>),
+site boundary (<code class="highlighter-rouge">aoi_boundary_HARV</code>) and roads (<code class="highlighter-rouge">lines_HARV</code>) spatial objects. We
+will need to build a <strong>custom legend</strong> as well.</p>
+
+<p>To begin, create a plot with the site boundary as the first layer. Then layer
+the tower location and road data on top using <code class="highlighter-rouge">add = TRUE</code>.</p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot multiple shapefiles
+plot(aoi_boundary_HARV$geometry,
+     col = "grey93",
+     border = "grey",
+     main = "NEON Harvard Forest Field Site")
+
+plot(lines_HARV$geometry,
+     col = road_colors,
+     add = TRUE)
+
+plot(point_HARV$geometry,
+     add = TRUE,
+     pch = 19,
+     col = "purple")
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-08-plot-many-shapefiles-1.png" title="plot of chunk plot-many-shapefiles" alt="plot of chunk plot-many-shapefiles" style="display: block; margin: auto;" /></p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># assign plot to an object for easy modification!
+plot_HARV &lt;- recordPlot()
+</code></pre></div></div>
+
+<h2 id="customize-your-legend">Customize Your Legend</h2>
+
+<p>Next, let’s build a custom legend using the symbology (the colors and symbols)
+that we used to create the plot above. To do this,  we will need to build three
+things:</p>
+
+<ol>
+  <li>A list of all “labels” (the text used to describe each element in the legend
+to use in the legend.</li>
+  <li>A list of colors used to color each feature in our plot.</li>
+  <li>A list of symbols to use in the plot. NOTE: we have a combination of points,
+lines and polygons in our plot. So we will need to customize our symbols!</li>
+</ol>
+
+<p>Let’s create objects for the labels, colors and symbols so we can easily reuse
+them. We will start with the labels.</p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a list of all labels
+labels &lt;- c("Tower", "AOI", levels(lines_HARV$TYPE))
+labels
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "Tower"      "AOI"        "boardwalk"  "footpath"   "stone wall"
+[6] "woods road"
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># render plot
+plot_HARV
+
+# add a legend to our map
+legend("bottomright",
+       legend = labels,
+       bty = "n", # turn off the legend border
+       cex = .8) # decrease the font / legend size
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-08-create-custom-labels-1.png" title="plot of chunk create-custom-labels" alt="plot of chunk create-custom-labels" style="display: block; margin: auto;" /></p>
+
+<p>Now we have a legend with the labels identified. Let’s add colors to each legend
+element next. We can use the vectors of colors that we created earlier to do this.</p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we have a list of colors that we used above - we can use it in the legend
+road_palette
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "blue"   "green"  "grey"   "purple"
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a list of colors to use
+plot_colors &lt;- c("purple", "grey", road_palette)
+plot_colors
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] "purple" "grey"   "blue"   "green"  "grey"   "purple"
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># render plot
+plot_HARV
+
+# add a legend to our map
+legend("bottomright",
+       legend = labels,
+       fill = plot_colors,
+       bty = "n", # turn off the legend border
+       cex = .8) # decrease the font / legend size
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-08-add-colors-1.png" title="plot of chunk add-colors" alt="plot of chunk add-colors" style="display: block; margin: auto;" /></p>
+
+<p>Great - now we have a legend however this legend uses boxes to symbolize each
+element in the plot. It might be better if the lines were symbolized as a line
+and the points, symbolized as a symbol. We can customize this using
+<code class="highlighter-rouge">pch=</code> in our legend: <strong>16</strong> is a point symbol, <strong>15</strong> is a box.</p>
+
+<blockquote class="callout">
+  <h2 id="data-tip-1">Data Tip</h2>
+  <p>To view a short list of <code class="highlighter-rouge">pch</code> symbols,
+type <code class="highlighter-rouge">?pch</code> into the <code class="highlighter-rouge">R</code> console.</p>
+</blockquote>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a list of pch values
+# these are the symbols that will be used for each legend value
+# ?pch will provide more information on values
+plotSym &lt;- c(16, 15, 15, 15, 15, 15)
+plotSym
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 16 15 15 15 15 15
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot multiple shapefiles
+plot_HARV
+
+# to create a custom legend, we need to fake it
+legend("bottomright",
+       legend = labels,
+       pch = plotSym,
+       bty = "n",
+       col = plot_colors,
+       cex = .8)
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-08-custom-symbols-1.png" title="plot of chunk custom-symbols" alt="plot of chunk custom-symbols" style="display: block; margin: auto;" /></p>
+
+<p>Now we’ve added a point symbol to represent our point element in the plot. However
+it might be more useful to use line symbols in our legend
+rather than squares to represent the line data. We can create line symbols,
+using <code class="highlighter-rouge">lty = ()</code>. We have a total of 6 elements in our legend:</p>
+
+<ol>
+  <li>A Tower Location</li>
+  <li>An Area of Interest (AOI)</li>
+  <li>and <strong>4</strong> Road types (levels)</li>
+</ol>
+
+<p>The <code class="highlighter-rouge">lty</code> list designates, in order, which of those elements should be
+designated as a line (<code class="highlighter-rouge">1</code>) and which should be designated as a symbol (<code class="highlighter-rouge">NA</code>).
+Our object will thus look like <code class="highlighter-rouge">lty = c(NA, NA, 1, 1, 1, 1)</code>. This tells <code class="highlighter-rouge">R</code> to use a
+line element for`the 3-6 elements in our legend only.</p>
+
+<p>Once we do this, we need to <strong>modify</strong> our <code class="highlighter-rouge">pch</code> element. Each <strong>line</strong> element
+(3-6) should be represented by a <code class="highlighter-rouge">NA</code> value - this tells <code class="highlighter-rouge">R</code> to not use a
+symbol, but to instead use a line.</p>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create line object
+line_legend &lt;- c(NA, NA, 1, 1, 1, 1)
+line_legend
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] NA NA  1  1  1  1
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plotSym &lt;- c(16, 15, NA, NA, NA, NA)
+plotSym
+</code></pre></div></div>
+
+<div class="output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1] 16 15 NA NA NA NA
+</code></pre></div></div>
+
+<div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code># plot multiple shapefiles
+plot_HARV
+
+# build a custom legend
+legend("bottomright",
+       legend = labels,
+       lty = line_legend,
+       pch = plotSym,
+       bty = "n",
+       col = plot_colors,
+       cex = .8)
+</code></pre></div></div>
+
+<p><img src="../fig/rmd-08-refine-legend-1.png" title="plot of chunk refine-legend" alt="plot of chunk refine-legend" style="display: block; margin: auto;" /></p>
+
+<blockquote class="challenge">
+  <h2 id="challenge-plot-polygon-by-attribute">Challenge: Plot Polygon by Attribute</h2>
+
+  <ol>
+    <li>
+      <p>Using the <code class="highlighter-rouge">NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp</code> shapefile,
+create a map of study plot locations, with each point colored by the soil type
+(<code class="highlighter-rouge">soilTypeOr</code>). How many different soil types are there at this particular field
+site? Overlay this layer on top of the <code class="highlighter-rouge">lines_HARV</code> layer (the roads). Create a
+custom legend that applies line symbols to lines and point symbols to the points.</p>
+    </li>
+    <li>
+      <p>Modify the plot above. Tell <code class="highlighter-rouge">R</code> to plot each point, using a different
+symbol of <code class="highlighter-rouge">pch</code> value. HINT: to do this, create a vector object of symbols by
+factor level using the syntax described above for line width:
+<code class="highlighter-rouge">c(15, 17)[lines_HARV$soilTypeOr]</code>. Overlay this on top of the AOI Boundary.
+Create a custom legend.</p>
+    </li>
+  </ol>
+
+  <blockquote class="solution">
+    <h2 id="answers">Answers</h2>
+
+    <div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 1
+# open plot locations
+plotLocations &lt;- st_read("data/NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp")
+
+# how many unique soils?  Two
+unique(plotLocations$soilTypeOr)
+
+# create new color palette -- topo.colors palette
+blueGreen &lt;- c("blue", "darkgreen")
+blueGreen
+
+# plot roads
+plot(lines_HARV$geometry,
+     col=road_colors,
+     main = "NEON Harvard Forest Field Site\n Study Plots by Soil Type\n One Symbol for All Types")
+
+# plot the locations
+plot(plotLocations$geometry,
+     col=(blueGreen)[plotLocations$soilTypeOr],
+     pch=18,
+     add = TRUE)
+
+# create line object
+line_legendElement = c(NA, NA, 1, 1, 1, 1)
+line_legendElement
+plotSymElements &lt;- c(18, 18, NA, NA, NA, NA)
+plotSymElements
+
+# create vector of colors
+colorElements &lt;- c(blueGreen, road_palette)
+colorElements
+
+# create legend
+legend("bottomright",
+       legend = c(levels(plotLocations$soilTypeOr), levels(lines_HARV$TYPE)),
+       pch = plotSymElements,
+       lty = line_legendElement,
+       col = colorElements,
+       bty = "n",
+       cex = 1)
+</code></pre></div>    </div>
+
+    <p><img src="../fig/rmd-08-challenge-code-plot-color-1.png" title="plot of chunk challenge-code-plot-color" alt="plot of chunk challenge-code-plot-color" style="display: block; margin: auto;" /></p>
+
+    <div class="r highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 2
+# create vector of DIFFERENT plot symbols
+plSymbols &lt;- c(15, 17)[plotLocations$soilTypeOr]
+plSymbols
+
+# plot roads
+plot(lines_HARV$geometry,
+     col=road_colors,
+     main = "NEON Harvard Forest Field Site\n Study Plots by Soil Type\n Different Symbols for Types")
+
+# plot the locations
+plot(plotLocations$geometry,
+     col=(blueGreen)[plotLocations$soilTypeOr],
+     pch=plSymbols,
+     add = TRUE)
+
+# create line object
+line_legendElement  &lt;- c(NA, NA, 1, 1, 1, 1)
+line_legendElement
+plotSymElementsMod &lt;- c(15, 17, NA, NA, NA, NA)
+plotSymElementsMod
+
+# create vector of colors
+colorElements &lt;- c(blueGreen, road_palette)
+colorElements
+# create legend
+legend("bottomright",
+       legend = c(levels(plotLocations$soilTypeOr), levels(lines_HARV$TYPE)),
+       pch = plotSymElementsMod,
+       lty = line_legendElement,
+       col = colorElements,
+       bty = "n",
+       cex = 1)
+</code></pre></div>    </div>
+
+    <p><img src="../fig/rmd-08-challenge-code-plot-color-2.png" title="plot of chunk challenge-code-plot-color" alt="plot of chunk challenge-code-plot-color" style="display: block; margin: auto;" /></p>
+  </blockquote>
+</blockquote>
+
+
+<blockquote class="keypoints">
+  <h2>Key Points</h2>
+  <ul>
+    
+    <li>
+</li>
+    
+  </ul>
+</blockquote>
+
+</article>
+
+<div class="row">
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../07-vector-shapefile-attributes-in-r/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span class="sr-only">previous episode</span></a>
+      
+    </h3>
+  </div>
+  <div class="col-md-10">
+    
+  </div>
+  <div class="col-md-1">
+    <h3>
+      
+      <a href="../09-vector-when-data-dont-line-up-crs/"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
+      
+    </h3>
+  </div>
+</div>
+
+
+      
+      
+<footer>
+  <div class="row">
+    <div class="col-md-6" align="left">
+      <h4>
+	Copyright &copy; 2016–2018
+	
+	<a href="http://datacarpentry.org">Data Carpentry</a>
+	
+      </h4>
+    </div>
+    <div class="col-md-6" align="right">
+      <h4>
+	
+	<a href="/edit/gh-pages/_episodes/08-vector-plot-shapefiles-custom-legend.md">Edit on GitHub</a>
+	
+	/
+	<a href="/blob/gh-pages/CONTRIBUTING.md">Contributing</a>
+	/
+	<a href="/">Source</a>
+	/
+	<a href="/blob/gh-pages/CITATION">Cite</a>
+	/
+	<a href="mailto:lessons@software-carpentry.org">Contact</a>
+      </h4>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/lesson.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-37305346-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
